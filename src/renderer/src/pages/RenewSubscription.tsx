@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from '../contexts/StoreContext';
-import { Check, X, CreditCard, Building2, Users, Package, Upload, AlertCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Check, X, Building2, Users, Package, Upload, AlertCircle } from 'lucide-react';
 
 const RenewSubscription = () => {
   const { selectedStore } = useStore();
-  const navigate = useNavigate();
   const [plans, setPlans] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [paymentData, setPaymentData] = useState({
@@ -68,13 +65,13 @@ const RenewSubscription = () => {
     setSubmitting(true);
     try {
       // Convert image to base64 if exists
-      let receiptBase64 = null;
+      let receiptBase64: string | undefined;
       if (paymentData.paymentReceipt) {
         receiptBase64 = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result as string);
           reader.onerror = reject;
-          reader.readAsDataURL(paymentData.paymentReceipt);
+          reader.readAsDataURL(paymentData.paymentReceipt as Blob);
         });
       }
 

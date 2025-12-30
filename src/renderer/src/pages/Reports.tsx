@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { DollarSign, ShoppingBag, TrendingUp, AlertTriangle, Star, Store, Package, TrendingDown, Bell, Wallet } from 'lucide-react';
+import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { DollarSign, ShoppingBag, TrendingUp, AlertTriangle, Star, Package, Bell } from 'lucide-react';
 import { useStore } from '../contexts/StoreContext';
 
 const ReportsPage = () => {
-  const { selectedStore, stores } = useStore();
+  const { selectedStore } = useStore();
   const [data, setData] = useState<any>(null);
   const [netProfit, setNetProfit] = useState<any>(null);
   const [inventoryValue, setInventoryValue] = useState<any>(null);
@@ -216,12 +216,12 @@ const ReportsPage = () => {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ category, total }) => `${category}: ${total.toFixed(0)} ر.س`}
+                  label={({ value, name }) => `${name}: ${value?.toFixed(0)} ر.س`}
                   outerRadius={100}
                   fill="#8884d8"
                   dataKey="total"
                 >
-                  {expensesByCategory.map((entry, index) => (
+                  {expensesByCategory.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>

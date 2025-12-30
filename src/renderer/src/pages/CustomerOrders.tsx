@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ShoppingBag, User, Calendar, DollarSign, FileText, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
 import { useStore } from '../contexts/StoreContext';
 import { useNavigate } from 'react-router-dom';
@@ -46,12 +46,12 @@ const CustomerOrdersPage = () => {
     }
   };
 
-  const handleApprove = async (orderId: number) => {
+  const handleApprove = async (_orderId: number) => {
     // TODO: Implement order approval
     alert('سيتم تنفيذ الموافقة على الطلب قريباً');
   };
 
-  const handleReject = async (orderId: number) => {
+  const handleReject = async (_orderId: number) => {
     if (!confirm('هل تريد رفض هذا الطلب؟')) return;
     // TODO: Implement order rejection
     alert('سيتم تنفيذ رفض الطلب قريباً');

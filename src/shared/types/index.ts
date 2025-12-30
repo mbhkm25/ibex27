@@ -88,6 +88,7 @@ export interface Store {
   phone?: string | null;
   subscriptionPlan: SubscriptionPlan;
   subscriptionStatus: SubscriptionStatus;
+  subscriptionExpiry: Date | null;
   bankAccounts: BankAccount[];
   contactInfo: ContactInfo;
   settings: StoreSettings;

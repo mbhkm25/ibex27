@@ -6,7 +6,7 @@
 import { eq, and, isNull, desc } from 'drizzle-orm';
 import { localDb } from './db-local';
 import { db } from './db';
-import { products as localProducts, sales as localSales, customers as localCustomers, categories as localCategories, syncQueue, storeInfo } from './schema-local';
+import { products as localProducts, sales as localSales, customers as localCustomers, categories as localCategories, storeInfo } from './schema-local';
 import { products as cloudProducts, sales as cloudSales, customers as cloudCustomers, categories as cloudCategories, saleItems as cloudSaleItems } from './schema';
 import { saleItems as localSaleItems } from './schema-local';
 
@@ -26,7 +26,7 @@ async function checkInternetConnection(): Promise<boolean> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
     
-    const response = await fetch('https://www.google.com', {
+    await fetch('https://www.google.com', {
       method: 'HEAD',
       mode: 'no-cors',
       signal: controller.signal as any,
@@ -161,7 +161,7 @@ async function pullProducts(storeId: number): Promise<number> {
 /**
  * Pull customers from cloud to local
  */
-async function pullCustomers(storeId: number): Promise<number> {
+async function pullCustomers(_storeId: number): Promise<number> {
   try {
     // Get customers from cloud (those registered in this store)
     const cloudCustomersList = await db

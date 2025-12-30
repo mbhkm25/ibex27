@@ -39,7 +39,7 @@ const StorePage = () => {
     if (!selectedStore) return;
     
     try {
-      const data = await window.api.store.get(selectedStore.id);
+      const data = await window.api.stores.get(selectedStore.id);
       if (data) {
         setSettings({
           name: data.name || '',
@@ -71,7 +71,7 @@ const StorePage = () => {
 
   const loadRequests = async () => {
     try {
-      const data = await window.api.store.requests.getAll();
+      const data = await window.api.stores.requests.getAll();
       setRequests(data);
     } catch (error) {
       console.error(error);
@@ -101,7 +101,7 @@ const StorePage = () => {
         const base64Data = event.target?.result as string;
         
         try {
-          await window.api.store.uploadLogo({
+          await window.api.stores.uploadLogo({
             storeId: selectedStore.id,
             imageData: base64Data,
           });
@@ -146,7 +146,7 @@ const StorePage = () => {
 
     setLoading(true);
     try {
-      await window.api.store.save({
+      await window.api.stores.save({
         storeId: selectedStore.id,
         name: settings.name,
         description: settings.description,
@@ -164,7 +164,7 @@ const StorePage = () => {
   };
 
   const updateRequestStatus = async (id: number, status: string) => {
-    await window.api.store.requests.updateStatus(id, status);
+    await window.api.stores.requests.updateStatus(id, status);
     loadRequests();
   };
 

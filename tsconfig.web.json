@@ -3,7 +3,8 @@
   "include": [
     "src/renderer/src/**/*",
     "src/renderer/**/*.tsx",
-    "src/renderer/**/*.ts"
+    "src/renderer/**/*.ts",
+    "src/shared/**/*"
   ],
   "compilerOptions": {
     "composite": true,

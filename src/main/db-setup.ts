@@ -15,6 +15,9 @@ if (!connectionString) {
   throw new Error('DATABASE_URL is not set in environment variables. Please create a .env file with DATABASE_URL.');
 }
 
+// Assert that connectionString is defined after the check
+const dbConnectionString = connectionString as string;
+
 /**
  * Required tables for the application
  */
@@ -66,7 +69,7 @@ export async function checkDatabase(): Promise<{
   };
 
   try {
-    const sql = postgres(connectionString, {
+    const sql = postgres(dbConnectionString, {
       ssl: 'require',
       max: 1,
     });
@@ -120,7 +123,7 @@ export async function cleanupUnusedTables(): Promise<{
   };
 
   try {
-    const sql = postgres(connectionString, {
+    const sql = postgres(dbConnectionString, {
       ssl: 'require',
       max: 1,
     });
@@ -231,7 +234,7 @@ export async function setupDatabase(): Promise<{
     unusedTables: check.unusedTables.length,
   });
 
-  let cleanup = { success: false, removed: [], errors: [] };
+  let cleanup = { success: false, removed: [] as string[], errors: [] as string[] };
   if (check.unusedTables.length > 0) {
     console.log('🧹 Cleaning up unused tables...');
     cleanup = await cleanupUnusedTables();

@@ -1,4 +1,3 @@
-import React from 'react';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
 import { format } from 'date-fns';
@@ -63,9 +62,9 @@ export const generateThermalInvoice = async (data: ThermalInvoiceData): Promise<
   const addText = (text: string, fontSize: number, align: 'left' | 'center' | 'right' = 'center', bold = false) => {
     doc.setFontSize(fontSize);
     if (bold) {
-      doc.setFont(undefined, 'bold');
+      doc.setFont('helvetica', 'bold');
     } else {
-      doc.setFont(undefined, 'normal');
+      doc.setFont('helvetica', 'normal');
     }
     
     const xPos = align === 'center' ? pageWidth / 2 : align === 'right' ? pageWidth - margin : margin;
@@ -86,12 +85,6 @@ export const generateThermalInvoice = async (data: ThermalInvoiceData): Promise<
     try {
       // Logo is base64 data URL
       const logoData = data.store.logo;
-      
-      // Extract base64 data (remove data:image/...;base64, prefix if present)
-      let base64Data = logoData;
-      if (logoData.includes(',')) {
-        base64Data = logoData.split(',')[1];
-      }
       
       // Convert base64 to image and add to PDF
       // Note: jsPDF supports base64 images directly
@@ -176,7 +169,7 @@ export const generateThermalInvoice = async (data: ThermalInvoiceData): Promise<
 
   // Table Header
   doc.setFontSize(8);
-  doc.setFont(undefined, 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.text('الصنف', margin, yPos);
   doc.text('الكم', margin + 35, yPos);
   doc.text('السعر', margin + 50, yPos);
@@ -187,7 +180,7 @@ export const generateThermalInvoice = async (data: ThermalInvoiceData): Promise<
   yPos += 2;
 
   // Items
-  doc.setFont(undefined, 'normal');
+  doc.setFont('helvetica', 'normal');
   data.items.forEach((item) => {
     // Product name (may wrap)
     const nameLines = doc.splitTextToSize(item.name, 35);
@@ -220,7 +213,7 @@ export const generateThermalInvoice = async (data: ThermalInvoiceData): Promise<
 
   // ===== TOTALS =====
   doc.setFontSize(10);
-  doc.setFont(undefined, 'bold');
+  doc.setFont('helvetica', 'bold');
   
   // Base Currency Total
   const baseCurrencySymbol = data.sale.currency?.symbol || 'ر.س';
@@ -230,7 +223,7 @@ export const generateThermalInvoice = async (data: ThermalInvoiceData): Promise<
   if (data.sale.convertedTotal && data.sale.convertedCurrency && data.sale.exchangeRate) {
     yPos += 2;
     doc.setFontSize(9);
-    doc.setFont(undefined, 'normal');
+    doc.setFont('helvetica', 'normal');
     addText(`(${data.sale.convertedTotal.toFixed(2)} ${data.sale.convertedCurrency.symbol})`, 9, 'right');
     addText(`سعر الصرف: 1 ${baseCurrencySymbol} = ${data.sale.exchangeRate.toFixed(4)} ${data.sale.convertedCurrency.symbol}`, 7, 'center');
   }
@@ -242,7 +235,7 @@ export const generateThermalInvoice = async (data: ThermalInvoiceData): Promise<
   if (data.customer && data.customer.balance !== undefined) {
     yPos += 2;
     doc.setFontSize(8);
-    doc.setFont(undefined, 'normal');
+    doc.setFont('helvetica', 'normal');
     addText(`الرصيد المتبقي: ${data.customer.balance.toFixed(2)} ${baseCurrencySymbol}`, 8, 'right');
     yPos += 3;
   }

@@ -19,6 +19,9 @@ if (!connectionString) {
   throw new Error('DATABASE_URL is not set in environment variables. Please create a .env file with DATABASE_URL.');
 }
 
+// Assert that connectionString is defined after the check
+const dbConnectionString = connectionString as string;
+
 /**
  * Create a database backup
  */
@@ -39,7 +42,7 @@ async function createBackup(): Promise<string> {
   
   try {
     // Extract connection details from connection string
-    const url = new URL(connectionString.replace('postgresql://', 'http://'));
+    const url = new URL(dbConnectionString.replace('postgresql://', 'http://'));
     const host = url.hostname;
     const port = url.port || '5432';
     const database = url.pathname.slice(1).split('?')[0];

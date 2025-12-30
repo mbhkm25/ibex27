@@ -59,8 +59,9 @@ const CustomersPage = () => {
   }, [selectedStore]);
 
   const loadCustomers = async () => {
+    if (!selectedStore) return;
     try {
-      const data = await window.api.customers.getAll(search);
+      const data = await window.api.customers.getAll({ storeId: selectedStore.id, search });
       setCustomers(data);
     } catch (error) {
       console.error(error);

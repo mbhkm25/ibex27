@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Check, X, Eye, AlertCircle, Calendar, Building2, CreditCard } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Check, X, Eye, AlertCircle, Building2 } from 'lucide-react';
 
 const SubscriptionRequests = () => {
   const [requests, setRequests] = useState<any[]>([]);

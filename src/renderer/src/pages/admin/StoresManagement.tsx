@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Store, Search, CheckCircle, XCircle, AlertCircle, Trash2, Calendar } from 'lucide-react';
+import { Store, Search, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 import { Store as StoreType } from '../../../../shared/types';
-import { formatCurrency } from '../../../../shared/utils/currency';
 
 interface StoreWithMerchant extends StoreType {
   merchant?: {

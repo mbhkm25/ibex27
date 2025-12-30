@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Search, ShoppingCart, Trash2, Plus, Minus, Printer, Check, User, Wallet, X, AlertCircle, DollarSign, Download, MessageCircle } from 'lucide-react';
-import { generateInvoicePDF } from '../lib/pdf-generator';
 import { printThermalInvoice, downloadThermalInvoice, sendInvoiceViaWhatsApp } from '../lib/thermal-invoice';
 import { useStore } from '../contexts/StoreContext';
 import QRCode from 'qrcode';
@@ -126,8 +125,9 @@ const SellingPage = () => {
   };
 
   const loadStoreSettings = async () => {
+    if (!selectedStore) return;
     try {
-      const settings = await window.api.store.get();
+      const settings = await window.api.stores.get(selectedStore.id);
       if (settings) setStoreSettings(settings);
     } catch (error) {
       console.error(error);
@@ -135,8 +135,9 @@ const SellingPage = () => {
   };
 
   const loadCustomers = async () => {
+    if (!selectedStore) return;
     try {
-      const data = await window.api.customers.getAll('');
+      const data = await window.api.customers.getAll({ storeId: selectedStore.id });
       setCustomers(data);
     } catch (error) {
       console.error(error);
@@ -243,6 +244,8 @@ const SellingPage = () => {
 
     try {
       const result = await window.api.currencies.convert({
+        from: baseCurrency.id,
+        to: selectedCurrency.id,
         amount: total,
         fromCurrencyId: baseCurrency.id,
         toCurrencyId: selectedCurrency.id,

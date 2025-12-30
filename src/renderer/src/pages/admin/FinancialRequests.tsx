@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Wallet, Building2, Calendar, Hash, CheckCircle, XCircle, Eye, AlertCircle } from 'lucide-react';
+import { Wallet, Building2, Calendar, Hash } from 'lucide-react';
 import { formatCurrency } from '../../../../shared/utils/currency';
 
 interface BalanceRequest {

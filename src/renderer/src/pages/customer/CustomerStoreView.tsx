@@ -181,13 +181,13 @@ const CustomerStoreView = () => {
       if (!customer) return;
 
       // Convert image to base64 if exists
-      let receiptBase64 = null;
+      let receiptBase64: string | undefined;
       if (depositForm.receiptImage) {
         receiptBase64 = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result as string);
           reader.onerror = reject;
-          reader.readAsDataURL(depositForm.receiptImage!);
+          reader.readAsDataURL(depositForm.receiptImage as Blob);
         });
       }
 
