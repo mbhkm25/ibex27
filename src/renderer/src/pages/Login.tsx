@@ -8,12 +8,35 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const isElectron = typeof window !== 'undefined' && window.api;
+
+  if (!isElectron) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              تطبيق Ibex27
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              هذا التطبيق يعمل فقط في بيئة Electron. يرجى تشغيل التطبيق من خلال Electron.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
+      if (!window.api || !window.api.login) {
+        throw new Error('هذا التطبيق يعمل فقط في بيئة Electron. يرجى تشغيل التطبيق من خلال Electron.');
+      }
+
       const user = await window.api.login({ email, password });
       if (user) {
         localStorage.setItem('user', JSON.stringify(user));
@@ -32,6 +55,10 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
+      if (!window.api || !window.api.login) {
+        throw new Error('هذا التطبيق يعمل فقط في بيئة Electron. يرجى تشغيل التطبيق من خلال Electron.');
+      }
+
       let user;
       
       switch (type) {

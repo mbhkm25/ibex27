@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow as ElectronBrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { setupAuthHandlers, checkAndSeedAdmin } from './auth'
@@ -28,11 +28,11 @@ import { setupBackupHandlers } from './backup'
 import { setupSyncHandlers } from './sync-handlers'
 import { initLocalDatabase } from './db-local'
 
-let mainWindow: ElectronBrowserWindow | null = null;
+let mainWindow: BrowserWindow | null = null;
 
-function createWindow(): ElectronBrowserWindow {
+function createWindow(): BrowserWindow {
   // Create the browser window.
-  const window = new ElectronBrowserWindow({
+  const window = new BrowserWindow({
     width: 900,
     height: 670,
     show: false,
@@ -68,8 +68,8 @@ function createWindow(): ElectronBrowserWindow {
 /**
  * Create a new window with auto-login
  */
-function createWindowWithLogin(type: 'admin' | 'merchant' | 'cashier' | 'customer', title: string): ElectronBrowserWindow {
-  const window = new ElectronBrowserWindow({
+function createWindowWithLogin(type: 'admin' | 'merchant' | 'cashier' | 'customer', title: string): BrowserWindow {
+  const window = new BrowserWindow({
     width: 1200,
     height: 800,
     show: false,
@@ -247,7 +247,7 @@ app.whenReady().then(() => {
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (ElectronBrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
 

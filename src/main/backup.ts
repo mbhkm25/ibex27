@@ -20,7 +20,7 @@ if (!connectionString) {
 }
 
 // Assert that connectionString is defined after the check
-const dbConnectionString = connectionString as string;
+const dbConnectionString = connectionString!;
 
 /**
  * Create a database backup

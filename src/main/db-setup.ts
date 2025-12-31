@@ -16,7 +16,7 @@ if (!connectionString) {
 }
 
 // Assert that connectionString is defined after the check
-const dbConnectionString = connectionString as string;
+const dbConnectionString = connectionString!;
 
 /**
  * Required tables for the application
@@ -234,7 +234,7 @@ export async function setupDatabase(): Promise<{
     unusedTables: check.unusedTables.length,
   });
 
-  let cleanup = { success: false, removed: [] as string[], errors: [] as string[] };
+  let cleanup: { success: boolean; removed: string[]; errors: string[]; } = { success: false, removed: [], errors: [] };
   if (check.unusedTables.length > 0) {
     console.log('🧹 Cleaning up unused tables...');
     cleanup = await cleanupUnusedTables();
