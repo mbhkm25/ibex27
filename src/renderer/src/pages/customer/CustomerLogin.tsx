@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Input } from '../../components/common';
 import { useCustomer } from '../../contexts/CustomerContext';
 
-const CustomerLogin = () => {
+interface CustomerLoginProps {
+  onSuccess?: () => void;
+}
+
+const CustomerLogin = ({ onSuccess }: CustomerLoginProps) => {
   const navigate = useNavigate();
   const { setCustomer, setStores, loadCustomerData } = useCustomer();
   const [phone, setPhone] = useState('');
@@ -35,7 +39,11 @@ const CustomerLogin = () => {
         setCustomer(result.customer);
         setStores(result.stores);
         await loadCustomerData();
-        navigate('/customer/dashboard');
+        if (onSuccess) {
+          onSuccess();
+        } else {
+          navigate('/customer/dashboard');
+        }
       }
     } catch (err: any) {
       setError(err.message || 'فشل تسجيل الدخول');

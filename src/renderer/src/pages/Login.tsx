@@ -39,8 +39,13 @@ const LoginPage = () => {
 
       const user = await window.api.login({ email, password });
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-        navigate('/');
+        // User is already saved to localStorage by web-adapter
+        // Navigate based on role
+        if (user.role === 'platform_admin') {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
       }
     } catch (err: any) {
       setError(err.message || 'فشل تسجيل الدخول');
@@ -69,7 +74,7 @@ const LoginPage = () => {
             password: 'admin123' 
           });
           if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
+            // User is already saved to localStorage by web-adapter
             navigate('/admin');
           }
           break;
@@ -81,7 +86,7 @@ const LoginPage = () => {
             password: 'merchant123' 
           });
           if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
+            // User is already saved to localStorage by web-adapter
             navigate('/');
           }
           break;
@@ -93,7 +98,7 @@ const LoginPage = () => {
             password: 'cashier123' 
           });
           if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
+            // User is already saved to localStorage by web-adapter
             navigate('/');
           }
           break;
@@ -198,7 +203,15 @@ const LoginPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => window.api.window?.openWithLogin('admin', 'أدمن المنصة - Ibex27')}
+                onClick={() => {
+                  // In web mode, open in new tab instead of new window
+                  if (window.api.window?.openWithLogin) {
+                    window.api.window.openWithLogin('admin', 'أدمن المنصة - Ibex27');
+                  } else {
+                    // Fallback: open in new tab
+                    window.open(window.location.href, '_blank');
+                  }
+                }}
                 disabled={loading}
                 className="px-2 py-2 text-xs bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-lg transition-colors disabled:opacity-50 border border-purple-200"
                 title="فتح في نافذة جديدة"
@@ -219,7 +232,13 @@ const LoginPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => window.api.window?.openWithLogin('merchant', 'التاجر - Ibex27')}
+                onClick={() => {
+                  if (window.api.window?.openWithLogin) {
+                    window.api.window.openWithLogin('merchant', 'التاجر - Ibex27');
+                  } else {
+                    window.open(window.location.href, '_blank');
+                  }
+                }}
                 disabled={loading}
                 className="px-2 py-2 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors disabled:opacity-50 border border-blue-200"
                 title="فتح في نافذة جديدة"
@@ -240,7 +259,13 @@ const LoginPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => window.api.window?.openWithLogin('cashier', 'الكاشير - Ibex27')}
+                onClick={() => {
+                  if (window.api.window?.openWithLogin) {
+                    window.api.window.openWithLogin('cashier', 'الكاشير - Ibex27');
+                  } else {
+                    window.open(window.location.href, '_blank');
+                  }
+                }}
                 disabled={loading}
                 className="px-2 py-2 text-xs bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors disabled:opacity-50 border border-green-200"
                 title="فتح في نافذة جديدة"
@@ -261,7 +286,13 @@ const LoginPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => window.api.window?.openWithLogin('customer', 'العميل - Ibex27')}
+                onClick={() => {
+                  if (window.api.window?.openWithLogin) {
+                    window.api.window.openWithLogin('customer', 'العميل - Ibex27');
+                  } else {
+                    window.open(window.location.href, '_blank');
+                  }
+                }}
                 disabled={loading}
                 className="px-2 py-2 text-xs bg-orange-50 hover:bg-orange-100 text-orange-600 rounded-lg transition-colors disabled:opacity-50 border border-orange-200"
                 title="فتح في نافذة جديدة"
