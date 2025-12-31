@@ -48,7 +48,7 @@ export const initWebEnvironment = () => {
 
     // بوابة العميل
     customerPortal: {
-      getStores: async (customerId: number) => {
+      getStores: async (_customerId: number) => {
         // TODO: Create get-stores endpoint
         return [];
       },
@@ -58,22 +58,22 @@ export const initWebEnvironment = () => {
       getProducts: async (storeId: number) => {
         return apiCall(`customer-portal/get-products?storeId=${storeId}`, 'GET');
       },
-      getOffers: async (storeId: number) => {
+      getOffers: async (_storeId: number) => {
         // TODO: Create get-offers endpoint
         return [];
       },
-      getTransactions: async (data: { customerId: number; storeId: number }) => {
+      getTransactions: async (_data: { customerId: number; storeId: number }) => {
         // TODO: Create get-transactions endpoint
         return [];
       },
-      getInvoices: async (data: { customerId: number; storeId: number }) => {
+      getInvoices: async (_data: { customerId: number; storeId: number }) => {
         // TODO: Create get-invoices endpoint
         return [];
       },
       getOrders: async (data: { customerId: number; storeId: number }) => {
         return apiCall('customer-portal/get-orders', 'POST', data);
       },
-      getPendingOrders: async (storeId: number) => {
+      getPendingOrders: async (_storeId: number) => {
         // TODO: Create get-pending-orders endpoint
         return [];
       },
@@ -155,8 +155,8 @@ export const initWebEnvironment = () => {
 
   // تعريف المستمعين (Listeners)
   (window as any).ipcListeners = {
-    on: (channel: string, callback: Function) => {
-      console.log(`Listen on ${channel} (Web Mock)`);
+    on: (_channel: string, _callback: Function) => {
+      console.log(`Listen on ${_channel} (Web Mock)`);
     },
     removeListener: () => {},
   };

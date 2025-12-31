@@ -1,5 +1,3 @@
-import { IElectronAPI } from './window';
-
 /**
  * Web API Adapter
  * هذا الملف يقوم بتهيئة window.api عند التشغيل في المتصفح
@@ -36,7 +34,7 @@ export function setupWebApi() {
         if (!response.ok) throw new Error('Failed to fetch store');
         return response.json();
       },
-      getProducts: async (storeId) => {
+      getProducts: async (_storeId) => {
         // Mock data for demo
         return []; 
       },

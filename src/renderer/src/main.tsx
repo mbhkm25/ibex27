@@ -11,6 +11,15 @@ initWebEnvironment();
 if (!window.api) {
   window.api = {
     login: () => Promise.reject(new Error('API not available in web mode')),
+    getCurrentUser: () => {
+      const user = localStorage.getItem('user');
+      return user ? JSON.parse(user) : null;
+    },
+    logout: () => {
+      localStorage.removeItem('user');
+      localStorage.removeItem('authToken');
+      return Promise.resolve(true);
+    },
     auth: {
       registerMerchant: () => Promise.reject(new Error('API not available in web mode')),
     },
