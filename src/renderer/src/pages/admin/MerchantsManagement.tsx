@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Users, Search, MoreVertical, CheckCircle, XCircle, AlertCircle, Trash2 } from 'lucide-react';
+import { Users, Search, Trash2, AlertCircle, CheckCircle } from 'lucide-react';
 import { User } from '../../../../shared/types';
 
 export default function MerchantsManagement() {

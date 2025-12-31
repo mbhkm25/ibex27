@@ -2,11 +2,19 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 interface Store {
   id: number;
+  merchantId: number;
   name: string;
   slug: string;
   description?: string | null;
-  subscriptionPlan: string;
+  phone?: string | null;
+  subscriptionPlan: any;
   subscriptionStatus: string;
+  subscriptionExpiry: Date | null;
+  bankAccounts: any[];
+  contactInfo: any;
+  settings: any;
+  currencyId?: string | null;
+  deletedAt?: Date | null;
   createdAt: Date;
 }
 

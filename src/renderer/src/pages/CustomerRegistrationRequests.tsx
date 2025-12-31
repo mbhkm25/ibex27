@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckCircle, XCircle, User, Phone, Clock } from 'lucide-react';
-import { formatCurrency } from '../../../shared/utils/currency';
+import { useStore } from '../contexts/StoreContext';
 
 const CustomerRegistrationRequests = () => {
+  const { selectedStore } = useStore();
   const [customers, setCustomers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('pending');
@@ -12,9 +13,10 @@ const CustomerRegistrationRequests = () => {
   }, [filter]);
 
   const loadCustomers = async () => {
+    if (!selectedStore) return;
     try {
       setLoading(true);
-      const allCustomers = await window.api.customers.getAll('');
+      const allCustomers = await window.api.customers.getAll({ storeId: selectedStore.id });
       
       // Filter by registration status
       let filtered = allCustomers;

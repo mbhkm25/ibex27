@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { CheckCircle, XCircle, Wallet, Building2, Calendar, Hash, Image as ImageIcon, X, Eye } from 'lucide-react';
-import { formatCurrency } from '../../../shared/utils/currency';
+import { useEffect, useState } from 'react';
+import { CheckCircle, XCircle, Wallet, Building2, Calendar, Hash, X, Eye } from 'lucide-react';
 import { useStore } from '../contexts/StoreContext';
 
 const BalanceRequests = () => {
@@ -27,7 +26,7 @@ const BalanceRequests = () => {
       const requestsWithCustomers = await Promise.all(
         allRequests.map(async (request: any) => {
           try {
-            const customer = await window.api.customers.getAll('');
+            const customer = await window.api.customers.getAll({ storeId: selectedStore.id });
             const customerData = customer.find((c: any) => c.id === request.customerId);
             return {
               ...request,

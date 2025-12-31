@@ -59,8 +59,9 @@ const HRPage = () => {
   };
 
   const loadStoreSettings = async () => {
+    if (!selectedStore) return;
     try {
-      const settings = await window.api.store.get();
+      const settings = await window.api.stores.get(selectedStore.id);
       if (settings) setStoreSettings(settings);
     } catch (error) {
       console.error('Failed to load store settings', error);

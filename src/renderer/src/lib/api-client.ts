@@ -62,4 +62,3 @@ export const apiClient = isElectron ? window.api : createApiProxy() as any;
 
 // Helper to check environment
 export const isWebMode = !isElectron;
-

@@ -1,4 +1,4 @@
-import { Home, ShoppingCart, Users, Package, FileText, Settings, LogOut, DollarSign, Clock, CreditCard, Briefcase, Store, UserPlus, Wallet, Shield, Building2, Bell, ShoppingBag, Calendar } from 'lucide-react';
+import { Home, ShoppingCart, Users, Package, FileText, Settings, LogOut, DollarSign, Clock, CreditCard, Briefcase, Store, UserPlus, Wallet, Building2, ShoppingBag, Calendar } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { useEffect, useState } from 'react';
@@ -33,6 +33,7 @@ const Sidebar = () => {
 
       return () => clearInterval(interval);
     }
+    return () => {}; // Return empty cleanup function for other cases
   }, [user]);
 
   const loadNotifications = async (currentUser: any) => {
@@ -55,8 +56,6 @@ const Sidebar = () => {
       console.error('Failed to load notifications:', error);
     }
   };
-
-  const totalNotifications = notifications.registrations + notifications.balanceRequests;
 
   const isPlatformAdmin = user?.role === 'platform_admin';
 

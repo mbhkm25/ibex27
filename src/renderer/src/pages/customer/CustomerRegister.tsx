@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Input } from '../../components/common';
-import { formatPhone } from '../../../../shared/utils/currency';
 
 const CustomerRegister = () => {
   const { slug } = useParams<{ slug: string }>();

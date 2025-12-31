@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Store, LogOut, Wallet, ShoppingBag, Calendar, ArrowLeft } from 'lucide-react';
+import { Store, LogOut, Wallet, ShoppingBag, Calendar } from 'lucide-react';
 import { useCustomer } from '../../contexts/CustomerContext';
 
 const CustomerDashboard = () => {
