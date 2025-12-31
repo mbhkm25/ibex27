@@ -3,7 +3,9 @@ export interface IElectronAPI {
 }
 
 export interface IAuthAPI {
-  login: (credentials: any) => Promise<any>
+  login: (credentials: { email: string; password: string }) => Promise<any>
+  getCurrentUser: () => Promise<any | null>
+  logout: () => Promise<boolean>
   auth: {
     registerMerchant: (data: {
       name: string

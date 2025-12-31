@@ -33,6 +33,7 @@ import CustomerRegister from './pages/customer/CustomerRegister';
 import CustomerLogin from './pages/customer/CustomerLogin';
 import CustomerDashboard from './pages/customer/CustomerDashboard';
 import CustomerStoreView from './pages/customer/CustomerStoreView';
+import StoreLanding from './pages/customer/StoreLanding';
 
 import RequireAuth from './components/RequireAuth';
 import { StoreProvider } from './contexts/StoreContext';
@@ -80,6 +81,7 @@ function App(): JSX.Element {
           </Route>
 
           {/* Customer Portal Routes */}
+          <Route path="/store/:slug" element={<StoreLanding />} />
           <Route path="/customer/store/:slug/register" element={<CustomerRegister />} />
           <Route path="/customer/login" element={<CustomerLogin />} />
           <Route path="/customer/dashboard" element={<CustomerDashboard />} />

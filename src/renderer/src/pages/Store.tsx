@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Save, RefreshCw, CheckCircle, XCircle, Upload, Image as ImageIcon, X, AlertCircle } from 'lucide-react';
+import { Save, RefreshCw, CheckCircle, XCircle, Upload, Image as ImageIcon, X, AlertCircle, QrCode, Copy, Download } from 'lucide-react';
 import { useStore } from '../contexts/StoreContext';
+import QRCode from 'qrcode';
 
 const StorePage = () => {
   const { selectedStore } = useStore();
@@ -25,15 +26,62 @@ const StorePage = () => {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showQRCode, setShowQRCode] = useState(false);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
+  const [storeWebUrl, setStoreWebUrl] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (selectedStore && activeTab === 'settings') {
       loadSettings();
+      generateStoreWebUrl();
     } else if (activeTab === 'requests') {
       loadRequests();
     }
   }, [activeTab, selectedStore]);
+
+  const generateStoreWebUrl = () => {
+    if (!selectedStore) return;
+    
+    // Get web URL from environment or use default
+    const webBaseUrl = process.env.NEXT_PUBLIC_WEB_URL || 'https://ibex-web.vercel.app';
+    const url = `${webBaseUrl}/store/${selectedStore.slug}`;
+    setStoreWebUrl(url);
+  };
+
+  const generateQRCode = async () => {
+    if (!storeWebUrl) return;
+
+    try {
+      const dataUrl = await QRCode.toDataURL(storeWebUrl, {
+        width: 300,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      });
+      setQrCodeDataUrl(dataUrl);
+      setShowQRCode(true);
+    } catch (error) {
+      console.error('Failed to generate QR code:', error);
+      alert('فشل إنشاء كود QR');
+    }
+  };
+
+  const copyStoreUrl = () => {
+    navigator.clipboard.writeText(storeWebUrl);
+    alert('تم نسخ الرابط إلى الحافظة');
+  };
+
+  const downloadQRCode = () => {
+    if (!qrCodeDataUrl) return;
+
+    const link = document.createElement('a');
+    link.download = `qr-code-${selectedStore?.slug || 'store'}.png`;
+    link.href = qrCodeDataUrl;
+    link.click();
+  };
 
   const loadSettings = async () => {
     if (!selectedStore) return;
@@ -311,6 +359,81 @@ const StorePage = () => {
                     placeholder="عنوان المتجر..."
                   />
                 </div>
+              </div>
+
+              {/* Store Web Link & QR Code */}
+              <div className="space-y-4 border-t pt-6">
+                <h3 className="text-lg font-semibold text-gray-800">رابط بوابة العملاء</h3>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <p className="text-sm text-gray-600 mb-3">
+                    رابط بوابة العملاء للمتجر (يمكن للعملاء استخدامه للدخول إلى المتجر):
+                  </p>
+                  <div className="flex items-center gap-2 mb-3">
+                    <input
+                      type="text"
+                      value={storeWebUrl}
+                      readOnly
+                      className="flex-1 border border-blue-300 rounded-lg px-3 py-2 bg-white text-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={copyStoreUrl}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+                      title="نسخ الرابط"
+                    >
+                      <Copy size={18} />
+                      <span className="hidden sm:inline">نسخ</span>
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={generateQRCode}
+                    className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
+                  >
+                    <QrCode size={18} />
+                    <span>عرض كود QR للمتجر</span>
+                  </button>
+                </div>
+
+                {/* QR Code Modal */}
+                {showQRCode && qrCodeDataUrl && (
+                  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl p-6 max-w-md w-full">
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-xl font-bold text-gray-800">كود QR للمتجر</h3>
+                        <button
+                          onClick={() => setShowQRCode(false)}
+                          className="text-gray-500 hover:text-gray-700"
+                        >
+                          <X size={24} />
+                        </button>
+                      </div>
+                      <div className="text-center space-y-4">
+                        <div className="bg-white p-4 rounded-lg inline-block">
+                          <img src={qrCodeDataUrl} alt="QR Code" className="w-64 h-64" />
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          يمكن للعملاء مسح هذا الكود للدخول إلى بوابة المتجر
+                        </p>
+                        <div className="flex gap-3">
+                          <button
+                            onClick={downloadQRCode}
+                            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2"
+                          >
+                            <Download size={18} />
+                            <span>تحميل</span>
+                          </button>
+                          <button
+                            onClick={() => setShowQRCode(false)}
+                            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                          >
+                            إغلاق
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Invoice Settings */}

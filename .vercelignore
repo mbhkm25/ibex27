@@ -1,0 +1,18 @@
+# Ignore Electron-specific files
+src/main/
+src/preload/
+electron.vite.config.ts
+out/
+dist/
+
+# Ignore local database
+data/
+*.db
+
+# Ignore development files
+.env.local
+.env.development
+
+# Keep only web build output
+!dist-web/
+
